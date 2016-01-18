@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="@string/translation_text_view"
         android:id="@+id/TranslationTextView"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/button2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
