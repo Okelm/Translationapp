@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
         if (!isEmpty(translateEditText)) {
             Toast.makeText(this, "Getting Translations", Toast.LENGTH_LONG).show();
-            new SaveTheFeed().execute();
+            new GetXMLData().execute();
         } else {
             Toast.makeText(this, "Enter Words to Translate", Toast.LENGTH_LONG).show();
         }
@@ -261,126 +261,11 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
         }
 
-    }
-
-
-
-
-
-    class SaveTheFeed extends AsyncTask<String, Void, Void> {
-
-        String jsonString = "";
-        String result = "";
-        String wordsToTranslate;
-
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            EditText translateEditText = (EditText) findViewById(R.id.editText);
-
-            String wordsToTranslate = translateEditText.getText().toString();
-
-        }
-
-
-        @Override
-        protected Void doInBackground(String... params) {
-
-            wordsToTranslate = wordsToTranslate.replace("", "+");
-
-            DefaultHttpClient httpClient = new DefaultHttpClient(new BasicHttpParams());
-
-            HttpPost httpPost = new HttpPost("http://newjustin.com/translateit.php?action=translations&english_words=" + wordsToTranslate);
-
-            httpPost.setHeader("Content-type", "application/json");
-
-            InputStream inputStream = null;
-
-            try {
-
-                HttpResponse response = httpClient.execute(httpPost);
-
-                HttpEntity entity = response.getEntity();
-
-                inputStream = entity.getContent();
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
-
-                StringBuilder sb = new StringBuilder();
-
-                String line = null;
-
-                while ((line = reader.readLine()) != null) {
-
-                    sb.append(line + "\n");
-
-                }
-
-                jsonString = sb.toString();
-
-                JSONObject jObject = new JSONObject(jsonString);
-
-                JSONArray jArray = jObject.getJSONArray("translation");
-
-                outputTranslations(jArray);
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        protected void outputTranslations(JSONArray jsonArray) {
-
-            String[] languages = {"arabic", "chinese", "danish", "dutch",
-                    "french", "german", "italian", "german", "portuguese", "russian", "spanish"};
-
-            try {
-                for (int i = 0; i < jsonArray.length(); i++) {
-
-                    JSONObject translationObject =
-                            jsonArray.getJSONObject(i);
-
-                    result = result + languages[i] + " : " +
-                            translationObject.getString(languages[i]);
-
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-            TextView translation_text_view = (TextView) findViewById(R.id.TranslationTextView);
-            translation_text_view.setText(result);
-
-
-            // Make the TextView scrollable
-            translation_text_view.setMovementMethod(new ScrollingMovementMethod());
-
-            // Eliminate the "language :" part of the string for the
-            // translations
-            String stringOfTranslations = result.replaceAll("\\w+\\s:", "#");
-
-            // Store the translations into an array
-            arrayOfTranslations = stringOfTranslations.split("#");
-
-            translation_text_view.setText(result);
-            //  - See more at: http://www.newthinktank.com/2014/11/make-android-apps-16/#sthash.ryv9A2mZ.dpuf
-        }
-
 
     }
+
+
+
 
     public void ExceptSpeakInput(View view) {
 
