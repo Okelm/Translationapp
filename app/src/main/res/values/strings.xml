@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Translation app</string>
+    <string name="action_settings">Settings</string>
+    <string name="translation_text_view">Enter words above</string>
+    <string name="read_the_text">Read</string>
+    <string name="speak_the_text">Speak</string>
+    <string name="translate_button_text">Translate</string>
+    
+    <string name="speech_input_phase"> Say the Phrase</string>
+    <string name="stt_not_supported_message">Your Devie Doesnt Support Speech to Text</string>
+    
+    <string-array name="language_array">
+
+        <item>Dutch</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Italian</item>
+        <item>Portuguese</item>
+        <item>Russian</item>
+        <item>Spanish</item>
+
+    </string-array>
+   
+</resources>
